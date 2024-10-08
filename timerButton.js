@@ -100,7 +100,7 @@ function resetTimer() {
     switchButton2.disabled = true;
     document.getElementById('bladeRemovedValue').textContent = "";
 
-    switchButton2.disabled = true;
+    switchButton3.disabled = true;
     document.getElementById('breathDeliveredValue').textContent = "";
 };
 
