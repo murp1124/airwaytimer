@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Airway Study Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Airway Study Timer</h1>
+
+        <hr>
+        <br>
+
+        <button id="firstRSIPush">RSI Meds Pushed</button>
+
+        <p><span class="strongify">Start Time (CST):</span></p>
+        <p id="startTime"><span id="startTimeValue">N/A</span></p>
+        
+
+        <p><span class="strongify">Elapsed Time:</span></p>
+        <p id="elapsedTime"><span id="elapsedTimeValue">00:00:00</span></p>
+    
+        <br>
+        <hr>
+        <br>
+
+        <button id="switchButton1">Laryngoscope Blade Inserted</span><span id="bladeInsertedValue"></span></button>
+        <button id="switchButton2">Laryngoscope Blade Removed</span><span id="bladeRemovedValue"></span></button>
+        <button id="switchButton3">BVM Breath Delivered</span><span id="breathDeliveredValue"></span></button>
+
+    </div>
+    
+    <script src="timerButton.js"></script>
+    
+</body>
+
+</html>

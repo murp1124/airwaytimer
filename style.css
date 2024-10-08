@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    background-color: #84e297;
+}
+
+p span {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+#elapsedTime, #startTime {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.strongify {
+    font-weight: bold;
+}
+
+#firstRSIPush {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#switchButton1, #switchButton2, #switchButton3{
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 300px;
+}
+
+#switchButton1:disabled, #switchButton2:disabled, 
+#switchButton3:disabled{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#switchButton1:disabled span, #switchButton2:disabled span,
+#switchButton3:disabled span {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color:rgb(196, 25, 25);
+    font-size: 18px;
+}
