@@ -10,15 +10,7 @@ function startTimer() {
     timerInterval = setInterval(updateElapsedTime, 100);
 
     document.getElementById('firstRSIPush').textContent = 'Reset Timer';
-
-    document.getElementById('firstRSIPush').addEventListener('mouseover', () => {
-        document.getElementById('firstRSIPush').style.backgroundColor = 'rgb(233, 102, 102)';
-    });
-
-    document.getElementById('firstRSIPush').addEventListener('mouseout', () => {
-        document.getElementById('firstRSIPush').style.backgroundColor = 'rgb(233, 102, 102)';
-    });
-
+    document.getElementById('firstRSIPush').style.backgroundColor = 'rgb(233, 102, 102)';
 
     switchButton1.disabled = false;
 }
@@ -85,14 +77,6 @@ function resetTimer() {
     document.getElementById('elapsedTimeValue').textContent = "00:00:00";
     document.getElementById('startTimeValue').textContent = "N/A";
     document.getElementById('firstRSIPush').textContent = "RSI Meds Pushed";
-    
-    document.getElementById('firstRSIPush').addEventListener('mouseover', () => {
-        document.getElementById('firstRSIPush').style.backgroundColor = '';
-    });
-
-    document.getElementById('firstRSIPush').addEventListener('mouseout', () => {
-        document.getElementById('firstRSIPush').style.backgroundColor = '';
-    });
 
     switchButton1.disabled = true;
     document.getElementById('bladeInsertedValue').textContent = "";
@@ -107,8 +91,10 @@ function resetTimer() {
 document.getElementById('firstRSIPush').addEventListener('click', function() {
     if (this.textContent === 'RSI Meds Pushed') {
         startTimer();
+        this.style.backgroundColor = 'rgb(233, 102, 102)';
     } else {
         resetTimer();
+        this.style.backgroundColor = '';
     }
 });
 
