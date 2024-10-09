@@ -24,10 +24,6 @@ button {
     transition-duration: 0.4s;
 }
 
-button:hover {
-    background-color: #84e297;
-}
-
 p span {
     font-size: 1.2rem;
     margin: 0.5rem 0;
