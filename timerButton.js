@@ -139,7 +139,7 @@ switchButton3.addEventListener('click', function() {
     switchButton3.disabled = true;
 
     const five_minutes = 15000;
-    const ping = new Audio('/Sounds/beep_short_on.wav')
+    const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
     const glowEffect = document.querySelector('.borderGlow');
 
     for (let i = 0; i < 6; i++) {
