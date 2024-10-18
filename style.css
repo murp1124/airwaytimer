@@ -16,6 +16,17 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
+#timingData {
+    border: rgba(202, 202, 202, 0.8);
+    border-radius: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-right-style: ridge;
+    border-left-style: groove;
+}
+
 button {
     font-size: 1rem;
     padding: 0.5rem 1rem;
@@ -48,7 +59,7 @@ p span {
 }
 
 #switchButton1, #switchButton2, #switchButton3{
-    padding: 10px 20px;
+    display: block;
     font-size: 16px;
     cursor: pointer;
     border: none;
@@ -63,7 +74,6 @@ p span {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding: 10px 20px;
     font-size: 16px;
     background-color: #cccccc;
     cursor: not-allowed;
