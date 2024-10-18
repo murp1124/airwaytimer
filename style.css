@@ -55,6 +55,7 @@ p span {
     border-radius: 5px;
     transition: background-color 0.3s;
     width: 300px;
+    min-height: 40px
 }
 
 #switchButton1:disabled, #switchButton2:disabled, 
@@ -79,7 +80,7 @@ p span {
 
 .borderGlow {
     position: relative;
-    padding: 5px;
+    padding: 0px;
 }
 
 .borderGlow::before {
@@ -122,5 +123,21 @@ p span {
         bottom: 0;
         left: 0;
         opacity: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 1.2rem;
+    }
+    
+    #switchButton1, #switchButton2, #switchButton3 {
+        font-size: 14px;
+        padding: 8px 16px;
+        width: 270px;
+    }
+    
+    p span, #elapsedTime, #startTime {
+        font-size: 1.2rem;
     }
 }
