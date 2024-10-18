@@ -80,7 +80,7 @@ p span {
 
 .borderGlow {
     position: relative;
-    padding: 0px;
+    padding: 5px;
 }
 
 .borderGlow::before {
