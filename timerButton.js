@@ -138,7 +138,7 @@ switchButton3.addEventListener('click', function() {
     document.getElementById('switchButton3').style.color = 'black';
     switchButton3.disabled = true;
 
-    const five_minutes = 5 * 60 * 1000;
+    const five_minutes = 15000;
     const ping = new Audio('/Sounds/beep_short_on.wav')
     const glowEffect = document.querySelector('.borderGlow');
 
