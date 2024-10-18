@@ -1,7 +1,6 @@
 let startTime;
 let timerInterval;
 
-
 function startTimer() {
 
     startTime = Date.now();
@@ -17,12 +16,14 @@ function startTimer() {
 
 
 function updateStartTime() {
+
     const cstTime = getCurrTime();
     document.getElementById('startTimeValue').textContent = cstTime;
 }
 
 
 function getCurrTime(date = new Date(), options = {
+  
     timeZone: "America/Chicago",
     hour: "2-digit",
     minute: "2-digit",
@@ -49,7 +50,7 @@ function padZero(num) {
 
 
 function getTimeComponents() {
-;
+
     const milliseconds = Date.now() - startTime;
     const hours = Math.floor(milliseconds / 3600000);
     const minutes = Math.floor((milliseconds % 3600000) / 60000);
@@ -58,43 +59,26 @@ function getTimeComponents() {
 }
 
 
-function resetTimer() {
-
-
-    startTime = null;
-
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    };
-
-    document.getElementById('firstRSIPush').style.color = '';;
-    document.getElementById('switchButton1').style.color = '';
-    document.getElementById('switchButton2').style.color = '';
-    document.getElementById('switchButton3').style.color = '';
-
-    clearInterval(timerInterval);
-    document.getElementById('elapsedTimeValue').textContent = "00:00:00";
-    document.getElementById('startTimeValue').textContent = "N/A";
-    document.getElementById('firstRSIPush').textContent = "RSI Meds Pushed";
-
-    switchButton1.disabled = true;
-    document.getElementById('bladeInsertedValue').textContent = "";
-
-    switchButton2.disabled = true;
-    document.getElementById('bladeRemovedValue').textContent = "";
-
-    switchButton3.disabled = true;
-    document.getElementById('breathDeliveredValue').textContent = "";
-};
-
+let taps = 0;
 document.getElementById('firstRSIPush').addEventListener('click', function() {
+  
+    taps++;
+
     if (this.textContent === 'RSI Meds Pushed') {
         startTimer();
-        this.style.backgroundColor = 'rgb(233, 102, 102)';
-    } else {
-        resetTimer();
+        this.style.backgroundColor = 'rgb(255, 80, 80)';
+        taps = 0;
+    } else if (taps === 1) {
+        this.textContent = 'Confirm Reset';
+        this.style.backgroundColor = 'rgb(255, 110, 250)';
+        setTimeout(() => {
+            taps = 0;
+            this.textContent = 'Reset Timer';
+            this.style.backgroundColor = 'rgb(255, 80, 80)';
+        }, 3000);
+    } else if (taps === 2) {
         this.style.backgroundColor = '';
+        window.parent.location = window.parent.location.href;
     }
 });
 
@@ -126,7 +110,9 @@ switchButton2.disabled = true;
 const switchButton3 = document.getElementById('switchButton3');
 switchButton3.disabled = true;
 
+
 switchButton1.addEventListener('click', function() {
+    
     const {elapsedTimeStr, currTimeStr} = recordTime();
     document.getElementById('bladeInsertedValue').textContent = " ~T+" + elapsedTimeStr + " at " + currTimeStr + " CST";
     document.getElementById('switchButton1').style.color = 'black';
@@ -135,6 +121,7 @@ switchButton1.addEventListener('click', function() {
 });
 
 switchButton2.addEventListener('click', function() {
+   
     const {elapsedTimeStr, currTimeStr} = recordTime();
     document.getElementById('bladeRemovedValue').textContent = " ~T+" + elapsedTimeStr + " at " + currTimeStr + " CST";
     document.getElementById('switchButton2').style.color = 'black';
@@ -143,9 +130,40 @@ switchButton2.addEventListener('click', function() {
 
 });
 
+
 switchButton3.addEventListener('click', function() {
+   
     const {elapsedTimeStr, currTimeStr} = recordTime();
     document.getElementById('breathDeliveredValue').textContent = " ~T+" + elapsedTimeStr + " at " + currTimeStr + " CST";
     document.getElementById('switchButton3').style.color = 'black';
     switchButton3.disabled = true;
+
+    const five_minutes = 5 * 60 * 1000;
+    const ping = new Audio('/Sounds/beep_short_on.wav')
+    const glowEffect = document.querySelector('.borderGlow');
+
+    for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+
+            ping.play();
+            
+            glowEffect.classList.add('glow-active');
+            setTimeout(() => {
+                glowEffect.classList.remove('glow-active');
+            }, 6000);
+
+            for (let pings = 0; pings < 3; pings++) {
+
+                setTimeout(() => {
+                    ping.play();
+                }, 1500 * (pings + 1));
+
+                glowEffect.classList.add('glow-active');
+                setTimeout(() => {
+                    glowEffect.classList.remove('glow-active');
+                }, 10000);
+            }
+
+        }, five_minutes * (i + 1));
+    }
 });

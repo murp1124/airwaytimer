@@ -76,3 +76,51 @@ p span {
     color:rgb(196, 25, 25);
     font-size: 18px;
 }
+
+.borderGlow {
+    position: relative;
+    padding: 5px;
+}
+
+.borderGlow::before {
+    content: '';
+    position: absolute;
+    border: 6px solid rgba(255,82,82,0.5);
+    border-radius: 25px;
+    box-shadow: 
+        0 0 10px rgba(255,82,82,0.7),
+        0 0 10px rgba(255,82,82,0.7),
+        0 0 15px rgba(255,82,82,0.3),
+        0 0 20px rgba(255,82,82,0.2);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.borderGlow.glow-active::before {
+    opacity: 1;
+    animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+    0% {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0.1;
+    }
+    50% {
+        top: -10px;
+        right: -10px;
+        bottom: -10px;
+        left: -10px;
+        opacity: 1;
+    }
+    100% {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+    }
+}
