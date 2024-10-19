@@ -17,7 +17,12 @@ function startTimer() {
 
 function updateStartTime() {
 
-    const cstTime = getCurrTime();
+    const options = {timeZone: "America/Chicago",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false};
+
+    const cstTime = getCurrTime(undefined, options);
     document.getElementById('startTimeValue').textContent = cstTime;
 }
 
@@ -28,7 +33,7 @@ function getCurrTime(date = new Date(), options = {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: !document.getElementById('timeToggle').checked}) {
+    hour12: false}) {
 
     return date.toLocaleString('en-US', options);
 }
@@ -89,7 +94,7 @@ function recordTime() {
         timeZone: "America/Chicago",
         hour: "2-digit",
         minute: "2-digit",
-        hour12: !document.getElementById('timeToggle').checked
+        hour12: false
     };
 
     const currTimeStr = getCurrTime(new Date(), options);
@@ -137,7 +142,7 @@ switchButton3.addEventListener('click', function() {
     document.getElementById('switchButton3').style.color = 'black';
     switchButton3.disabled = true;
 
-    const five_minutes = 15000;
+    const five_minutes = 5 * 60 * 1000;
     const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
     const glowEffect = document.querySelector('.borderGlow');
 
