@@ -11,17 +11,37 @@
 
 <body>
     <div class="borderGlow">
+
         <div class="container">
             <h1>Airway Study Timer</h1>
 
             <div id="timingData">
-                <button id="firstRSIPush">RSI Meds Pushed</button>
+                <div class="content">
+                    
+                    <div class="toggleContainer">
+                        <div class="toggleAudio">
+                            <label class="switch">
+                                <input type="checkbox" id="soundToggle" checked>
+                            </label>
+                            <span>Sound</span>
+                        </div>
 
-                <p><span class="strongify">Start Time (CST):</span></p>
-                <p id="startTime"><span id="startTimeValue">N/A</span></p>
-                
-                <p><span class="strongify">Elapsed Time:</span></p>
-                <p id="elapsedTime"><span id="elapsedTimeValue">00:00:00</span></p>
+                        <div class="toggleTime">
+                            <label class="switch">
+                                <input type="checkbox" id="timeToggle" checked>
+                            </label>
+                            <span>24-hr</span>
+                        </div>
+                    </div>
+
+                    <button id="firstRSIPush">RSI Meds Pushed</button>
+
+                    <p><span class="strongify">Start Time (CST):</span></p>
+                    <p id="startTime"><span id="startTimeValue">N/A</span></p>
+                    
+                    <p><span class="strongify">Elapsed Time:</span></p>
+                    <p id="elapsedTime"><span id="elapsedTimeValue">00:00:00</span></p>
+                </div>
             </div>
 
             <button id="switchButton1">Laryngoscope Blade Inserted</span><span id="bladeInsertedValue"></span></button>
@@ -30,7 +50,6 @@
         </div>
         
         <script src="timerButton.js"></script>
-
     </div>
 </body>
 

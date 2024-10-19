@@ -28,7 +28,7 @@ function getCurrTime(date = new Date(), options = {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    hour12: false}) {
+    hour12: !document.getElementById('timeToggle').checked}) {
 
     return date.toLocaleString('en-US', options);
 }
@@ -89,7 +89,7 @@ function recordTime() {
         timeZone: "America/Chicago",
         hour: "2-digit",
         minute: "2-digit",
-        hour12: false
+        hour12: !document.getElementById('timeToggle').checked
     };
 
     const currTimeStr = getCurrTime(new Date(), options);
@@ -130,7 +130,6 @@ switchButton2.addEventListener('click', function() {
 
 });
 
-
 switchButton3.addEventListener('click', function() {
    
     const {elapsedTimeStr, currTimeStr} = recordTime();
@@ -145,25 +144,18 @@ switchButton3.addEventListener('click', function() {
     for (let i = 0; i < 6; i++) {
         setTimeout(() => {
 
-            ping.play();
-            
-            glowEffect.classList.add('glow-active');
-            setTimeout(() => {
-                glowEffect.classList.remove('glow-active');
-            }, 6000);
-
             for (let pings = 0; pings < 3; pings++) {
-
                 setTimeout(() => {
-                    ping.play();
-                }, 1500 * (pings + 1));
-
-                glowEffect.classList.add('glow-active');
-                setTimeout(() => {
-                    glowEffect.classList.remove('glow-active');
-                }, 10000);
+                    if (document.getElementById('soundToggle').checked) {
+                        ping.play();
+                    }
+                    glowEffect.classList.add('glow-active');                    
+                    setTimeout(() => {
+                        glowEffect.classList.remove('glow-active');
+                    }, 500);
+                }, 1000 * pings);
             }
-
+            
         }, five_minutes * (i + 1));
     }
 });

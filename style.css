@@ -16,13 +16,32 @@ body {
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
+.toggleContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.toggleAudio {
+    padding: 5px 20px;
+}
+
+.toggleTime {
+    padding: 5px 20px;
+    padding-bottom: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    margin-right: 5px;
+}
+
 #timingData {
     border: rgba(202, 202, 202, 0.8);
     border-radius: 15px;
     margin-top: 30px;
     margin-bottom: 30px; 
-    padding-top: 20px;
-    padding-bottom: 20px;
     border-right-style: ridge;
     border-left-style: groove;
 }
@@ -99,6 +118,7 @@ p span {
     content: '';
     position: absolute;
     border: 6px solid rgba(255,82,82,0.5);
+    background-color: rgba(255, 146, 146, 0.3);
     border-radius: 25px;
     box-shadow: 
         0 0 10px rgba(255,82,82,0.7),
@@ -111,7 +131,7 @@ p span {
 
 .borderGlow.glow-active::before {
     opacity: 1;
-    animation: pulseGlow 1.5s infinite;
+    animation: pulseGlow 0.5s infinite;
 }
 
 @keyframes pulseGlow {
@@ -136,6 +156,11 @@ p span {
         left: 0;
         opacity: 0;
     }
+}
+
+.content {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 @media (max-width: 500px) {
