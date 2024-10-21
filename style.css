@@ -8,7 +8,7 @@ body {
     background-color: #f0f0f0;
 }
 
-.container {
+.timerContainer {
     text-align: center;
     background-color: white;
     padding: 2rem;
@@ -131,7 +131,7 @@ p span {
 
 .borderGlow.glow-active::before {
     opacity: 1;
-    animation: pulseGlow 0.5s infinite;
+    animation: pulseGlow 1s infinite;
 }
 
 @keyframes pulseGlow {
@@ -164,7 +164,7 @@ p span {
 }
 
 @media (max-width: 500px) {
-    .container {
+    .timerContainer {
         padding: 1.2rem;
     }
     
