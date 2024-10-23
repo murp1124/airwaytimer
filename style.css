@@ -167,7 +167,7 @@ p span {
     #switchButton1, #switchButton2, #switchButton3 {
         font-size: 14px;
         padding: 8px 16px;
-        width: 270px;
+        width: 280px;
     }
     
     p span, #elapsedTime, #startTime {
