@@ -17,10 +17,14 @@ function startTimer() {
 
 function updateStartTime() {
 
-    const options = {timeZone: "America/Chicago",
+    const options = {
+
+        timeZone: "America/Chicago",
         hour: "2-digit",
         minute: "2-digit",
-        hour12: false};
+        second: "2-digit",
+        hour12: false
+    };
 
     const cstTime = getCurrTime(undefined, options);
     document.getElementById('startTimeValue').textContent = cstTime;
@@ -57,9 +61,15 @@ function padZero(num) {
 function getTimeComponents() {
 
     const milliseconds = Date.now() - startTime;
-    const hours = Math.floor(milliseconds / 3600000);
-    const minutes = Math.floor((milliseconds % 3600000) / 60000);
-    const seconds = Math.floor((milliseconds %60000) / 1000);
+
+    // Ensures T+ output is accurate relative to 
+    // recorded Start Time and Elapsed Time.
+    const roundedSecs = Math.floor(milliseconds / 1000);
+
+    const hours = Math.floor(roundedSecs / 3600);
+    const minutes = Math.floor((roundedSecs % 3600) / 60);
+    const seconds = roundedSecs % 60;
+
     return { hours, minutes, seconds };
 }
 
@@ -90,17 +100,24 @@ document.getElementById('firstRSIPush').addEventListener('click', function() {
 
 function recordTime() {
 
+    // Ensures T+ output is accurate relative to 
+    // recorded Start Time and Elapsed Time.
+    const milliseconds = Date.now() - startTime;
+    const roundedMilli = Math.floor(milliseconds / 1000) * 1000;
+    const currDate = new Date(Date.now() + roundedMilli - milliseconds); // Sheesh...
+
     const options = {
         timeZone: "America/Chicago",
         hour: "2-digit",
         minute: "2-digit",
+        second: "2-digit",
         hour12: false
     };
 
-    const currTimeStr = getCurrTime(new Date(), options);
+    const currTimeStr = getCurrTime(currDate, options);
 
     const {hours, minutes, seconds} = getTimeComponents();
-    const elapsedTimeStr = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}` 
+    const elapsedTimeStr = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
     
     return { elapsedTimeStr, currTimeStr };
 }
