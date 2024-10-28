@@ -173,7 +173,7 @@ switchButton3.addEventListener('click', function() {
     document.getElementById('switchButton3').style.color = 'black';
     switchButton3.disabled = true;
 
-    const five_minutes = 5 * 60 * 1000;
+    const five_minutes = 60 * 1000;
     const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
     const glowEffect = document.querySelector('.borderGlow');
 
@@ -213,7 +213,7 @@ switchButton3.addEventListener('click', function() {
                 setTimeout(() => {
                     document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
                     document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                }, 5000);
+                }, five_minutes);
             }
             
         }, five_minutes * (i + 1));
