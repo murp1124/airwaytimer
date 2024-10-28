@@ -153,6 +153,20 @@ switchButton2.addEventListener('click', function() {
 });
 
 switchButton3.addEventListener('click', function() {
+
+    for (let box = 1; box <= 5; box ++) {
+        document.getElementById(`box${box}`).style.backgroundColor = "#cccccc";
+        document.getElementById('dataProgressBar').animate([
+            {
+                opacity: 0
+            },
+            {
+                opacity: 0.3
+            },
+            {
+                opacity: 1
+            }], {duration: 1000});
+    }
    
     const {elapsedTimeStr, currTimeStr} = recordTime();
     document.getElementById('breathDeliveredValue').textContent = " ~T+" + elapsedTimeStr + " at " + currTimeStr + " CST";
@@ -163,9 +177,9 @@ switchButton3.addEventListener('click', function() {
     const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
     const glowEffect = document.querySelector('.borderGlow');
 
-    for (let i = 0; i < 6; i++) {
-        setTimeout(() => {
+    for (let i = 0; i < 5; i++) {
 
+        setTimeout(() => {
             for (let pings = 0; pings < 3; pings++) {
                 setTimeout(() => {
                     if (document.getElementById('soundToggle').checked) {
@@ -177,7 +191,32 @@ switchButton3.addEventListener('click', function() {
                     }, 1000);
                 }, 1500 * pings);
             }
+
+            if (i <= 4) {
+                if (i >= 1) {
+                    document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
+                    document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
+
+                    setTimeout(() => {
+                        document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                    }, five_minutes);
+                }
+                document.getElementById(`box${i+1}`).style.backgroundColor = "rgb(233, 102, 102)";
+                document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
+
+                setTimeout(() => {
+                    document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                }, five_minutes);
+            }
+
+            if (i === 4) {
+                setTimeout(() => {
+                    document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
+                    document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                }, 5000);
+            }
             
         }, five_minutes * (i + 1));
+
     }
 });

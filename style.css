@@ -8,10 +8,15 @@ body {
     background-color: #f0f0f0;
 }
 
+h1{
+    font-size: 30px;
+}
+
 .timerContainer {
     text-align: center;
     background-color: white;
-    padding: 2rem;
+    padding: 2.2rem;
+    padding-top: 45px;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
@@ -52,11 +57,29 @@ body {
 }
 
 button {
-    font-size: 1rem;
+    font-size: 16px;
     padding: 0.5rem 1rem;
     margin: 1rem 0;
     cursor: pointer;
     transition-duration: 0.4s;
+}
+
+#dataProgressBar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.progressBox {
+    width: 30px;
+    height: 30px;
+    color: white;
+    background-color: white;
+    display: flex;
+    border-radius: 18px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
 }
 
 p span {
@@ -78,7 +101,7 @@ p span {
     transition: background-color 0.3s;
 }
 
-#switchButton1, #switchButton2, #switchButton3{
+#switchButton1, #switchButton2, #switchButton3 {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -92,7 +115,8 @@ p span {
 }
 
 #switchButton1:disabled, #switchButton2:disabled, 
-#switchButton3:disabled{
+#switchButton3:disabled {
+    opacity: 80%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -161,11 +185,12 @@ p span {
 
 @media (max-width: 500px) {
     .timerContainer {
-        padding: 1.2rem;
+        padding: 1.6rem;
+        padding-top: 45px;
+
     }
     
     #switchButton1, #switchButton2, #switchButton3 {
-        font-size: 14px;
         padding: 8px 16px;
         width: 290px;
     }
