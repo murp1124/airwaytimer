@@ -18,10 +18,11 @@
                     
                     <div class="toggleContainer">
                         <div class="toggleAudio">
-                            <label class="switch">
+                            <label class="switch" id="audioSwitch">
                                 <input type="checkbox" id="soundToggle" checked>
+                                <img id="audioOn" src="https://raw.githubusercontent.com/murp1124/airwaytimer/0882db7c174c6d3a65bc435edfafdca090b06bab/Images/audio-on.svg" alt="Audio On">
+                                <img id="audioOff" src="https://raw.githubusercontent.com/murp1124/airwaytimer/0882db7c174c6d3a65bc435edfafdca090b06bab/Images/audio-mute.svg" alt="Audio Muted">
                             </label>
-                            <span>Sound</span>
                         </div>
 
                         <!-- <div class="toggleTime">
@@ -30,6 +31,15 @@
                             </label>
                             <span>24-hr</span>
                         </div> -->
+
+                        <div class="toggleHandoff">
+                            <button class="copyButton" onclick="copyState(this)"">
+                                <img id="copyString" src="https://raw.githubusercontent.com/murp1124/airwaytimer/0882db7c174c6d3a65bc435edfafdca090b06bab/Images/copy-to-clipboard.svg" alt="Copy">
+                                <img id="copiedString" src="https://raw.githubusercontent.com/murp1124/airwaytimer/0882db7c174c6d3a65bc435edfafdca090b06bab/Images/copy-to-clipboard-success.svg" alt="Copied">
+                            </button>
+
+                            <script src="copyURL.js"></script>
+                        </div>
                     </div>
 
                     <button id="firstRSIPush">RSI Meds Pushed</button>

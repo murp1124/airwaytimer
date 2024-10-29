@@ -1,6 +1,150 @@
 let startTime;
 let timerInterval;
 
+function initFromURL() {
+
+    const currState = new URLSearchParams(window.location.search);
+    const savedStartTime = currState.get('startTime');
+    
+    if (savedStartTime) {
+        startTime = parseInt(savedStartTime);
+        timerInterval = setInterval(updateElapsedTime, 100);
+        document.getElementById('firstRSIPush').textContent = 'Reset Timer';
+        document.getElementById('firstRSIPush').style.backgroundColor = 'rgb(233, 102, 102)';
+        updateStartTime();
+        updateElapsedTime();
+
+        switchButton1.disabled = false;
+    }
+
+    const bladeInserted = currState.get('bladeInserted');
+
+    if (bladeInserted === "true") {
+        const bladeInsertTime = currState.get('bladeInsertTime');
+        const bladeElapsedTime = currState.get('bladeElapsedTime');
+
+        document.getElementById('bladeInsertedValue').textContent = 
+            `~T+${bladeElapsedTime} at ${bladeInsertTime} CST`;
+        document.getElementById('switchButton1').style.color = 'black';
+        switchButton1.disabled = true;
+        switchButton2.disabled = false;
+
+
+    }
+
+    const bladeRemoved = currState.get('bladeRemoved');
+
+    if (bladeRemoved === "true") {
+        const bladeRemovalTime = currState.get('bladeRemovalTime');
+        const bladeRemElapsedTime = currState.get('bladeRemElapsedTime');
+
+        document.getElementById('bladeRemovedValue').textContent = 
+            `~T+${bladeRemElapsedTime} at ${bladeRemovalTime} CST`;
+        document.getElementById('switchButton2').style.color = 'black';
+        switchButton2.disabled = true;
+        switchButton3.disabled = false;
+
+    }
+
+    const breathDelivered = currState.get('breathDelivered');
+
+    if (breathDelivered === "true") {
+        const breathDeliveredTime = currState.get('breathDeliveredTime');
+        const breathElapsedTime = currState.get('breathElapsedTime');
+        const progressBoxes = currState.get('progressBoxes') || '0';
+
+        document.getElementById('breathDeliveredValue').textContent = 
+            `~T+${breathElapsedTime} at ${breathDeliveredTime} CST`;
+        document.getElementById('switchButton3').style.color = 'black';
+        switchButton3.disabled = true;
+
+        for (let box = 1; box <= 5; box ++) {
+            document.getElementById(`box${box}`).style.backgroundColor = "#cccccc";
+            document.getElementById('dataProgressBar').animate([
+                {
+                    opacity: 0
+                },
+                {
+                    opacity: 0.3
+                },
+                {
+                    opacity: 1
+                }], {duration: 1000});
+        }
+
+        const boxes = parseInt(progressBoxes);
+        for (let i = 1; i <= boxes; i++) {
+            document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
+        }
+        if (boxes < 5) {
+            document.getElementById(`box${boxes + 1}`).style.backgroundColor = "rgb(233, 102, 102)";
+        }
+
+        const five_minutes = 5 * 60 * 1000;
+        const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
+        const glowEffect = document.querySelector('.borderGlow');
+    
+        const breathTime = new Date(startTime + parseTimeString(breathElapsedTime) * 1000);
+        const lastBreathTime = Date.now() - breathTime.getTime();
+        const alignment = lastBreathTime % five_minutes;
+        const nextBoxTime = five_minutes - alignment;
+
+        const currBox = boxes + 1
+        for (let i = currBox; i < 5; i++) {
+
+            const delayVal = i === currBox ?
+                nextBoxTime : nextBoxTime + (i - currBox) * five_minutes;
+                
+            setTimeout(() => {
+                for (let pings = 0; pings < 3; pings++) {
+                    setTimeout(() => {
+                        if (document.getElementById('soundToggle').checked) {
+                            ping.play();
+                        }
+                        glowEffect.classList.add('glow-active');                    
+                        setTimeout(() => {
+                            glowEffect.classList.remove('glow-active');
+                        }, 1000);
+                    }, 1500 * pings);
+                }
+    
+                if (i <= 4) {
+                    if (i >= 1) {
+                        document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
+                        document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
+    
+                        setTimeout(() => {
+                            document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                        }, five_minutes);
+                    }
+                    document.getElementById(`box${i+1}`).style.backgroundColor = "rgb(233, 102, 102)";
+                    document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
+    
+                    setTimeout(() => {
+                        document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                    }, five_minutes);
+                }
+    
+                if (i === 4) {
+                    setTimeout(() => {
+                        document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
+                        document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                    
+                    }, five_minutes);
+                }
+                
+            }, delayVal);
+        }
+    }
+
+    function parseTimeString(timeStr) {
+        const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+        return (hours * 3600) + (minutes * 60) + seconds;
+    }
+
+}
+
+
 function startTimer() {
 
     startTime = Date.now();
@@ -12,6 +156,10 @@ function startTimer() {
     document.getElementById('firstRSIPush').style.backgroundColor = 'rgb(233, 102, 102)';
 
     switchButton1.disabled = false;
+
+    const url = new URL(window.location);
+    url.searchParams.set('startTime', startTime.toString());
+    window.history.pushState({}, '', url);
 }
 
 
@@ -92,8 +240,10 @@ document.getElementById('firstRSIPush').addEventListener('click', function() {
             this.style.backgroundColor = 'rgb(255, 80, 80)';
         }, 3000);
     } else if (taps === 2) {
+        initFromURL(true);
         this.style.backgroundColor = '';
-        window.parent.location = window.parent.location.href;
+        const baseURL = window.location.href.split('?')[0];
+        window.parent.location = baseURL;
     }
 });
 
@@ -140,6 +290,13 @@ switchButton1.addEventListener('click', function() {
     document.getElementById('switchButton1').style.color = 'black';
     switchButton1.disabled = true;
     switchButton2.disabled = false;
+
+    const url = new URL(window.location);
+    url.searchParams.set('bladeInserted', 'true');
+    url.searchParams.set('bladeInsertTime', currTimeStr);
+    url.searchParams.set('bladeElapsedTime', elapsedTimeStr);
+    window.history.pushState({}, '', url);
+
 });
 
 switchButton2.addEventListener('click', function() {
@@ -149,6 +306,12 @@ switchButton2.addEventListener('click', function() {
     document.getElementById('switchButton2').style.color = 'black';
     switchButton2.disabled = true;
     switchButton3.disabled = false;
+
+    const url = new URL(window.location);
+    url.searchParams.set('bladeRemoved', true);
+    url.searchParams.set('bladeRemovalTime', currTimeStr);
+    url.searchParams.set('bladeRemElapsedTime', elapsedTimeStr);
+    window.history.pushState({}, '', url);
 
 });
 
@@ -172,6 +335,13 @@ switchButton3.addEventListener('click', function() {
     document.getElementById('breathDeliveredValue').textContent = " ~T+" + elapsedTimeStr + " at " + currTimeStr + " CST";
     document.getElementById('switchButton3').style.color = 'black';
     switchButton3.disabled = true;
+
+    const url = new URL(window.location);
+    url.searchParams.set('breathDelivered', 'true');
+    url.searchParams.set('breathDeliveredTime', currTimeStr);
+    url.searchParams.set('breathElapsedTime', elapsedTimeStr);
+    url.searchParams.set('progressBoxes', 0);
+    window.history.pushState({}, '', url)
 
     const five_minutes = 5 * 60 * 1000;
     const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
@@ -197,6 +367,10 @@ switchButton3.addEventListener('click', function() {
                     document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
                     document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
 
+                    const url = new URL(window.location);
+                    url.searchParams.set('progressBoxes', i.toString());
+                    window.history.pushState({}, '', url);
+
                     setTimeout(() => {
                         document.getElementById(`box${i+1}`).style.border = "2px solid white"
                     }, five_minutes);
@@ -213,10 +387,17 @@ switchButton3.addEventListener('click', function() {
                 setTimeout(() => {
                     document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
                     document.getElementById(`box${i+1}`).style.border = "2px solid white"
+                
+                    const url = new URL(window.location);
+                    url.searchParams.set('progressBoxes', '5');
+                    window.history.pushState({}, '', url);
+
                 }, five_minutes);
             }
             
         }, five_minutes * (i + 1));
-
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', initFromURL);

@@ -29,23 +29,94 @@ h1{
 .toggleContainer {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 30px;
 }
 
 .toggleAudio {
-    padding: 5px 20px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
 }
+
+.toggleAudio input {
+    position: absolute;
+    opacity: 0;
+    width: 20;
+    height: 20;
+}
+
+.toggleAudio img {
+    width: 35px;
+    height: 45px;
+    cursor: pointer;
+}
+
+#audioOn {
+    position: absolute;
+    opacity: 0;
+}
+
+#audioMute {
+    opacity: 1;
+}
+
+.toggleAudio input:not(:checked) ~ #audioOff {
+    opacity: 1;
+}
+
+.toggleAudio input:not(:checked) ~ #audioOn {
+    opacity: 0;
+}
+
+.toggleAudio input:checked ~ #audioOff {
+    opacity: 0;
+}
+
+.toggleAudio input:checked ~ #audioOn {
+    opacity: 1;
+}
+
 
 /* .toggleTime {
     padding: 5px 20px;
     padding-bottom: 10px;
 } */
 
+
+.copyButton {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 35px;
+    height: 45px;
+}
+
+.copyButton img {
+    width: 35px;
+    height: 45px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+#copiedString {
+    opacity: 0;
+}
+
+#copyString {
+    opacity: 1;
+}
+
+
 .switch {
     position: relative;
     display: inline-block;
-    margin-right: 5px;
 }
+
 
 #timingData {
     border: rgba(202, 202, 202, 0.8);
@@ -56,13 +127,15 @@ h1{
     border-left-style: groove;
 }
 
-button {
+
+button #switchButton1, #switchButton2, #switchButton3 {
     font-size: 16px;
     padding: 0.5rem 1rem;
     margin: 1rem 0;
     cursor: pointer;
     transition-duration: 0.4s;
 }
+
 
 #dataProgressBar {
     display: flex;
@@ -93,6 +166,8 @@ p span {
 }
 
 #firstRSIPush {
+    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -116,6 +191,7 @@ p span {
 
 #switchButton1:disabled, #switchButton2:disabled, 
 #switchButton3:disabled {
+    padding: 8px 16px;
     opacity: 80%;
     display: block;
     margin-left: auto;
