@@ -1,6 +1,7 @@
 let startTime;
 let timerInterval;
 
+
 function initFromURL() {
 
     const currState = new URLSearchParams(window.location.search);
@@ -11,7 +12,20 @@ function initFromURL() {
         timerInterval = setInterval(updateElapsedTime, 100);
         document.getElementById('firstRSIPush').textContent = 'Reset Timer';
         document.getElementById('firstRSIPush').style.backgroundColor = 'rgb(233, 102, 102)';
-        updateStartTime();
+       
+        const options = {
+
+            timeZone: "America/Chicago",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false
+        };
+
+        const startTimeStr = new Date(startTime);
+        const test = startTimeStr.toLocaleString('en-US', options);
+        document.getElementById('startTimeValue').textContent = test;
+
         updateElapsedTime();
 
         switchButton1.disabled = false;
@@ -28,7 +42,6 @@ function initFromURL() {
         document.getElementById('switchButton1').style.color = 'black';
         switchButton1.disabled = true;
         switchButton2.disabled = false;
-
 
     }
 
@@ -51,7 +64,7 @@ function initFromURL() {
     if (breathDelivered === "true") {
         const breathDeliveredTime = currState.get('breathDeliveredTime');
         const breathElapsedTime = currState.get('breathElapsedTime');
-        const progressBoxes = currState.get('progressBoxes') || '0';
+        const progressBoxes = currState.get('progressBoxes');
 
         document.getElementById('breathDeliveredValue').textContent = 
             `~T+${breathElapsedTime} at ${breathDeliveredTime} CST`;
@@ -72,13 +85,8 @@ function initFromURL() {
                 }], {duration: 1000});
         }
 
-        const boxes = parseInt(progressBoxes);
-        for (let i = 1; i <= boxes; i++) {
-            document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
-        }
-        if (boxes < 5) {
-            document.getElementById(`box${boxes + 1}`).style.backgroundColor = "rgb(233, 102, 102)";
-        }
+        const boxesStr = progressBoxes || -1;
+        const boxes = parseInt(boxesStr)
 
         const five_minutes = 5 * 60 * 1000;
         const ping = new Audio('https://github.com/murp1124/airwaytimer/raw/refs/heads/main/Sounds/beep_short_on.wav')
@@ -89,51 +97,66 @@ function initFromURL() {
         const alignment = lastBreathTime % five_minutes;
         const nextBoxTime = five_minutes - alignment;
 
-        const currBox = boxes + 1
-        for (let i = currBox; i < 5; i++) {
+        
+        if (boxes >= 0) {
+            for (let i = 0; i <= boxes; i++) {
+                document.getElementById(`box${i + 1}`).style.backgroundColor = "#50C878";
+            }
+        }
 
-            const delayVal = i === currBox ?
-                nextBoxTime : nextBoxTime + (i - currBox) * five_minutes;
-                
-            setTimeout(() => {
-                for (let pings = 0; pings < 3; pings++) {
-                    setTimeout(() => {
-                        if (document.getElementById('soundToggle').checked) {
-                            ping.play();
-                        }
-                        glowEffect.classList.add('glow-active');                    
+        // Refactor this beast some other day *phewwww*
+
+        if (boxes === -1) {
+
+            for (let i = 0; i < 5; i++) {
+
+                currBox = boxes + 1
+                const delayVal = i === currBox ?
+                    nextBoxTime : nextBoxTime + (i - currBox) * five_minutes;
+
+                setTimeout(() => {
+                    for (let pings = 0; pings < 3; pings++) {
                         setTimeout(() => {
-                            glowEffect.classList.remove('glow-active');
-                        }, 1000);
-                    }, 1500 * pings);
-                }
-    
-                if (i <= 4) {
-                    if (i >= 1) {
-                        document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
-                        document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
-    
-                        setTimeout(() => {
-                            document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                        }, five_minutes);
+                            if (document.getElementById('soundToggle').checked) {
+                                ping.play();
+                            }
+                            glowEffect.classList.add('glow-active');                    
+                            setTimeout(() => {
+                                glowEffect.classList.remove('glow-active');
+                            }, 1000);
+                        }, 1500 * pings);
                     }
-                    document.getElementById(`box${i+1}`).style.backgroundColor = "rgb(233, 102, 102)";
-                    document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
+
+                   document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
+
+                }, delayVal);
+            }
+
+        } else {
     
-                    setTimeout(() => {
-                        document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                    }, five_minutes);
-                }
+            currBox = boxes + 1
+            for (let i = currBox; i < 5; i++) {
     
-                if (i === 4) {
-                    setTimeout(() => {
-                        document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
-                        document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                    
-                    }, five_minutes);
-                }
-                
-            }, delayVal);
+                const delayVal = i === currBox ?
+                    nextBoxTime : nextBoxTime + (i - currBox) * five_minutes;
+    
+                setTimeout(() => {
+                    for (let pings = 0; pings < 3; pings++) {
+                        setTimeout(() => {
+                            if (document.getElementById('soundToggle').checked) {
+                                ping.play();
+                            }
+                            glowEffect.classList.add('glow-active');                    
+                            setTimeout(() => {
+                                glowEffect.classList.remove('glow-active');
+                            }, 1000);
+                        }, 1500 * pings);
+                    }
+        
+                    document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
+    
+                }, delayVal);
+            }
         }
     }
 
@@ -340,7 +363,6 @@ switchButton3.addEventListener('click', function() {
     url.searchParams.set('breathDelivered', 'true');
     url.searchParams.set('breathDeliveredTime', currTimeStr);
     url.searchParams.set('breathElapsedTime', elapsedTimeStr);
-    url.searchParams.set('progressBoxes', 0);
     window.history.pushState({}, '', url)
 
     const five_minutes = 5 * 60 * 1000;
@@ -350,6 +372,11 @@ switchButton3.addEventListener('click', function() {
     for (let i = 0; i < 5; i++) {
 
         setTimeout(() => {
+
+            document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
+            url.searchParams.set('progressBoxes', i.toString());
+            window.history.pushState({}, '', url);
+
             for (let pings = 0; pings < 3; pings++) {
                 setTimeout(() => {
                     if (document.getElementById('soundToggle').checked) {
@@ -362,39 +389,6 @@ switchButton3.addEventListener('click', function() {
                 }, 1500 * pings);
             }
 
-            if (i <= 4) {
-                if (i >= 1) {
-                    document.getElementById(`box${i}`).style.backgroundColor = "#50C878";
-                    document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
-
-                    const url = new URL(window.location);
-                    url.searchParams.set('progressBoxes', i.toString());
-                    window.history.pushState({}, '', url);
-
-                    setTimeout(() => {
-                        document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                    }, five_minutes);
-                }
-                document.getElementById(`box${i+1}`).style.backgroundColor = "rgb(233, 102, 102)";
-                document.getElementById(`box${i+1}`).style.border = "2px solid rgb(233, 102, 102)"
-
-                setTimeout(() => {
-                    document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                }, five_minutes);
-            }
-
-            if (i === 4) {
-                setTimeout(() => {
-                    document.getElementById(`box${i+1}`).style.backgroundColor = "#50C878";
-                    document.getElementById(`box${i+1}`).style.border = "2px solid white"
-                
-                    const url = new URL(window.location);
-                    url.searchParams.set('progressBoxes', '5');
-                    window.history.pushState({}, '', url);
-
-                }, five_minutes);
-            }
-            
         }, five_minutes * (i + 1));
     }
 });
